@@ -1,0 +1,149 @@
+package run;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+
+/**
+ * Servlet implementation class displaysensor
+ */
+@WebServlet("/displaysensor")
+public class displaysensor extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public displaysensor() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("successfully deleted");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+
+		boolean status = false;  
+		Connection conn = null;  
+		PreparedStatement pst = null;  
+		ResultSet rs = null;  
+		String driver = "com.mysql.jdbc.Driver";  
+		PrintWriter out = response.getWriter(); 
+		Statement stmt = null;
+		try{
+
+			Class.forName(driver).newInstance();  
+			conn = (Connection) DriverManager.getConnection("jdbc:mysql://avghightemp.cjdsel9fsb9g.us-west-1.rds.amazonaws.com:3306/avghightemp","sharat","abcdxyz123"); 
+
+
+			response.setContentType("text/html");    
+
+
+			String sensorid =request.getParameter("submit");
+			String []typeparameter=request.getParameterValues("sen");
+			String city = request.getParameter("city");
+			String sensorname=request.getParameter("labelName");
+			String type="0";
+			//use fetch the sensor data and use the above parameter to filter it 
+			int len= typeparameter.length;
+			int count =0;
+			String query="";
+			if(request.getParameterValues("sen")!=null)
+			{
+				for(int i=0;i<len;i++)
+				{
+					if(count==0)
+					{
+						type=typeparameter[i];
+
+					}
+					if(count>0)
+					{
+						type+=","+typeparameter[i];
+					}
+					count++;
+				}
+			}
+			if (sensorid.contains("modify"))
+			{
+				query="update usersensor set type="+"'"+type+"'"+" location="+"'"+city+"'"+" where sensorname="+"'"+sensorname+"'";
+				System.out.println(query);
+			}
+			if (sensorid.toLowerCase().contains("delete"))
+			{
+				query= "delete from usersensor where sensorname="+"'"+sensorname+"'";
+
+			}
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+			doGet(request, response);
+		}
+		catch (Exception e) {  
+			System.out.println(e); 
+		}finally{
+			if (conn != null) {  
+				try {  
+					conn.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}  
+			if (pst != null) {  
+				try {  
+					pst.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}  
+			if (rs != null) {  
+				try {  
+					rs.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}  
+		}
+
+		RequestDispatcher rd=request.getRequestDispatcher("menu.html");    
+        rd.forward(request,response);
+
+
+	}
+
+
+
+
+
+
+
+
+
+}
+
+

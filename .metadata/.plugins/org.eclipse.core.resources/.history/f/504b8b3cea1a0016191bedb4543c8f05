@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>Login successful!!!</h3>  
+    <form action="addsensor" method="post">  
+        <fieldset style="width: 300px">  
+            <legend> Sensor Creation </legend>  
+            <table>  
+                <tr>  
+                    <td>Sensor Name</td>  
+                    <td><input type="text" name="sensorname" id="sensorname"  /></td>  
+                </tr>  
+                <tr>  
+                    <td>Sensor Group</td>  
+                    <td><input type="text" name="sensorgrp" id="sensorgrp"/></td>  
+                </tr>  
+                <tr>  
+                    <td><input type="submit" value="Add" /></td>  
+                </tr>  
+            </table>  
+        </fieldset>  
+    <fieldset style="width: 600px">  
+            <legend> Sensors </legend>  
+            <table>  
+                <tr>  
+                    <td>
+                      <label for="sensor">sensor</label>
+                      </td>
+                    <td>
+                    <select>
+  						<option value="San Jose">San Jose</option>
+  						<option value="Fremont">Fremont</option>
+  						<option value="Santa Cruz">Santa Cruz</option>
+  						<option value="Nappa">Nappa</option>
+					</select>
+                    </td>
+                    <td>
+                    <input type="checkbox" name="sensor" value="Annual high Temperature">Annual high Temperature<br> 
+                    <input type="checkbox" name="sensor" value="Annual low Temperature">Annual low Temperature<br> 
+                    <input type="checkbox" name="sesnor" value="Average temperature">Average temperature<br> 
+                    <input type="checkbox" name="sensor" value="Average precepitation">Average precepitation<br> 
+                    </td>
+                </tr>  
+              	<tr>
+                   <td><input type="submit" value="Submit" /></td>  
+                </tr>  
+            </table>  
+        </fieldset>  
+    
+    
+    </form>
+</body>
+<script>
+//ajax
+
+</script>
+
+
+</html>

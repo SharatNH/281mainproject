@@ -1,0 +1,80 @@
+
+
+import java.io.IOException;
+import java.sql.DriverManager;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.mysql.jdbc.Connection;
+
+/**
+ * Servlet implementation class sensoradd
+ */
+@WebServlet("/sensoradd")
+public class sensoradd extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+    /**
+     * Default constructor. 
+     */
+    public sensoradd() {
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		
+		String sensorparameter = request.getParameter("sensorparameter");
+		String type="";
+		Connection con=null;
+		String [] typepara = null;
+		typepara = sensorparameter.split(",");
+		int len = typepara.length;
+		int intcount =0;
+		for(int i=0;i<len;i++)
+        {
+        	if(intcount==0)
+        	{
+        		type=typepara[i];
+        		
+        	}
+        	if(intcount>0)
+        	{
+        		type+=","+typepara[i];
+        	}
+        	intcount++;
+        	
+        	
+        	
+        	try {
+    			Class.forName("com.mysql.jdbc.Driver").newInstance();
+    			System.out.println("Entered the try");
+
+    			con= (Connection) DriverManager.getConnection("jdbc:mysql://avghightemp.cjdsel9fsb9g.us-west-1.rds.amazonaws.com:3306/avghightemp","sharat","abcdxyz123");
+    			
+    		} catch(Exception e) {
+    			e.printStackTrace();
+    		}
+
+		
+		
+		
+	}
+
+}

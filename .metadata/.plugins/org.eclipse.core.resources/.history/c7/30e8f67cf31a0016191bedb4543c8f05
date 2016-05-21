@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+    <form onsubmit="addsensor(this)" method="post">  
+        <fieldset style="width: 300px">  
+            <legend> Sensor Creation </legend>  
+            <table>  
+                <tr>  
+                    <td>Sensor Name</td>  
+                    <td><input type="text" name="sensorname" id="sensorname"  /></td>  
+                </tr>  
+                <tr>  
+                    <td>Sensor Group</td>  
+                    <td><input type="text" name="sensorgrp" id="sensorgrp"/></td>  
+                </tr>  
+               
+            </table>  
+        </fieldset>  
+    <fieldset style="width: 600px">  
+            <legend> Sensors </legend>  
+            <table>  
+                <tr>  
+                   
+                    <td>
+                    <select id="location">
+  						<option value="San Jose">San Jose</option>
+  						<option value="Fremont">Fremont</option>
+  						<option value="Santa Cruz">Santa Cruz</option>
+  						<option value="Nappa">Nappa</option>
+					</select>
+                    </td>
+                    <td>
+                    <input class="messageCheckbox" type="checkbox" name="sensor" value="Temperature"> Temperature<br> 
+                    <input class="messageCheckbox" type="checkbox" name="sensor" value="Precepitation">Precepitation<br> 
+                    </td>
+                </tr>  
+                 <tr>
+                   <td> <input type="submit" value ="Add" name="Add"> </td>  
+              </tr>
+              	 
+            </table>  
+        </fieldset>  
+    
+    
+    </form>
+</body>
+<script>
+
+function addsensor(obj) {
+
+	
+	var sensorname = obj['sensorname'].value;
+	alert(sensorname);
+	var sensorgrp = obj['sensorgrp'].value;
+	alert(sensorgrp);
+
+	
+	var e = document.getElementById("location");
+	var strlocation = e.options[e.selectedIndex].value;
+	alert(strlocation);
+	
+	
+	
+	
+	
+	var checkedValue = null;
+	var count =0;
+	var inputElements = document.getElementsByClassName('messageCheckbox');
+	
+	for (var i = 0; inputElements[i]; ++i) {
+			if (inputElements[i].checked) {
+				if (count == 0)
+					checkedValue = inputElements[i].value;
+				else
+					checkedValue += ',' + inputElements[i].value;
+
+				count++;
+
+			}
+		}
+	
+	alert(checkedValue);
+	alert(count);
+
+		var data = {
+			"sensorname" : sensorname,
+			"sensorgrp" : sensorgrp,
+
+			"city" : strlocation,
+
+			"sensorparameter" : checkedValue,
+
+			"count" : count
+
+		}
+
+		//alert(fname);
+		//alert(mname);
+		$.ajax({
+			type : "POST",
+			url : "sensoradd" ,
+			data : data
+		}).success(function(response) {
+			alert(success);
+		}).error(function(err) {
+			alert(err);
+		});
+
+	}
+</script>
+
+
+</html>

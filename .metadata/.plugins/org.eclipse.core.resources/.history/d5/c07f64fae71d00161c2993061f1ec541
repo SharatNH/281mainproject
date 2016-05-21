@@ -1,0 +1,217 @@
+package run;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+
+/**
+ * Servlet implementation class getsensordata
+ */
+@WebServlet("/getsensordata")
+public class getsensordata extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public getsensordata() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+
+
+		response.setContentType("text/html");    
+		PrintWriter out = response.getWriter();    
+
+		HttpSession session = request.getSession(true);
+		String user=session.getAttribute("username").toString();
+		String sensorname= request.getParameter("sensor");
+		boolean stat  = sensordata(response,request,user,sensorname);
+		if(!stat){
+			out.print("<p style=\"color:red\">Error in getting sensor data</p>");    
+			RequestDispatcher rd=request.getRequestDispatcher("index.html");    
+			rd.include(request,response); 	
+		}
+		out.close();   
+	}
+	public boolean sensordata(HttpServletResponse response,HttpServletRequest request,String username,String sensorname) throws ServletException, IOException
+	{
+		boolean status = false;  
+		Connection conn = null;  
+		PreparedStatement pst = null;  
+		PreparedStatement pst1 = null;  
+		ResultSet rs = null;  
+		ResultSet rs1 = null;
+		String driver = "com.mysql.jdbc.Driver";  
+		PrintWriter out = response.getWriter();    
+		try{
+			Class.forName(driver).newInstance();  
+			conn = (Connection) DriverManager  
+					.getConnection("jdbc:mysql://avghightemp.cjdsel9fsb9g.us-west-1.rds.amazonaws.com:3306/avghightemp","sharat","abcdxyz123"); 
+
+			pst = (PreparedStatement) conn.prepareStatement("select * from usersensor where userid=? and sensorname=?");  
+			pst.setString(1, username);   
+			pst.setString(2, sensorname);  
+
+			rs = pst.executeQuery();  
+			
+			pst1 = (PreparedStatement) conn.prepareStatement("select * from paratype"); 
+		    rs1 = pst1.executeQuery();  
+		    rs1.next();
+
+			out.print("<!DOCTYPE html>");
+			out.print("<html>");
+			out.print("<head>");
+			out.print("<meta charset='ISO-8859-1'>");
+			out.print("<title>Insert title here</title>");
+			out.print("<title>Agriculture Sensor Cloud</title>");
+			out.print("<script	src='http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js'></script>");
+			out.print("<script type='text/javascript'	src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js'> </script>");
+			out.print("<meta charset='ISO-8859-1'>");
+			out.print("<title>Agriculture Sensor Cloud</title>");
+			out.print("<link rel='stylesheet' href='css/bootstrap.min.css' type='text/css'>"); 
+			out.print("<link href=http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800 rel=stylesheet type=text/css>");
+			out.print("<link href=http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic rel=stylesheet type=text/css>");
+			out.print("<link rel='stylesheet' href='font-awesome/css/font-awesome.min.css' type='text/css'>");
+			out.print("<link rel='stylesheet' href='css/creative.css' type='text/css'>");
+			out.print("<link rel='stylesheet' type='text/css' href='css/demo.css' />");
+			out.print("<link rel='stylesheet' type='text/css' href='css/style.css' />");
+			out.print("<link rel='stylesheet' type='text/css' href='css/animate-custom.css' />");
+			out.print("</head>");
+			out.print("<body style='background-image:url(images/background.png);background-size: cover;'>");
+			out.print("<section>");
+			out.print("<div id='container_demo' >");
+			out.print(" <div id='wrapper'>");
+			out.print("<div id='login' class='animate form'>");
+			out.print("<form action='getdisplaydata' method='post'> ");
+			out.print(" <fieldset style='width: 100%'>  ");
+			out.print("<legend> Sensors </legend>"); 
+			out.print("<table cellpadding='0' cellspacing='0' width='600px'>");
+			while(rs.next())
+			{
+				out.print("<tr>");
+				out.print("<td style='border-bottom: 1px black solid;'>");
+				out.print(" <label for='"+rs.getString(1)+" name='lbl'' value =+'"+rs.getString(2)+">"+rs.getString(2)+"</label>");
+				out.print("<input type='hidden' value="+rs.getString(2)+" name='labelName' />");
+				out.print("</td>");
+				out.print("<td style='border-bottom: 1px black solid;'>");
+				out.print(" <select name='city'>");
+				if(rs.getString(3).toString().contains("washington"))
+					out.print("<option  value='washington' selected>washington</option>");
+				else
+					out.print("<option  value='washington' disabled='disabled'>washington</option>"); 
+
+				if(rs.getString(3).toString().contains("omaha"))
+					out.print("<option  value='omaha' selected>omaha</option>");
+				else
+					out.print("<option  value='omaha' disabled='disabled'>omaha</option>");
+
+
+				if(rs.getString(3).toString().contains("San Jose"))
+
+					out.print("<option  value='San Jose' selected>San Jose</option>");
+				else
+					out.print("<option  value='San Jose' disabled='disabled'>San Jose</option>");
+				out.print(" </select>");
+				out.print("</td>");
+				out.print("<td style='border-bottom: 1px black solid;'>");
+				 if(rs.getString(4).toString().contains("1")&& rs1.getString(1).toString().contains("1"))
+					   out.print(" <input type='checkbox' name='sen' value='1' checked=true>Temperature<br> ");
+					  else if(rs1.getString(1).toString().contains("1"))
+						   out.print(" <input type='checkbox' name='sen' value='1' >Temperature<br> ");
+					  else {}
+				   		if(rs.getString(4).toString().contains("2")&& rs1.getString(1).toString().contains("2"))
+					   out.print(" <input type='checkbox' name='sen' value='2'checked=true>Precipitation<br> ");
+				   		else if(rs1.getString(1).toString().contains("2"))
+						   out.print(" <input type='checkbox' name='sen' value='1' >Precipitation<br> ");
+				   		else {}
+				   		if(rs.getString(4).toString().contains("3") && rs1.getString(1).toString().contains("3"))
+					   out.print(" <input type='checkbox' name='sen' value='3'checked=true >Photo Sensor<br> ");
+				   		else if(rs1.getString(1).toString().contains("3"))
+						   out.print(" <input type='checkbox' name='sen' value='3'>Photo Sensor <br> "); 
+				   		else {}
+
+				out.print("</td>");
+
+				out.print("<td><input type='submit' name='submit' value='Display'/></td> ");
+				out.print("</tr>");
+			}
+			out.print("</table>");
+			out.print("</form>");
+			out.print("</div>");                                              
+			out.print("</div>");
+			out.print("</div>");
+			out.print("</section>"); 
+			out.print("</body>");
+			out.print("</html>");
+			status = true;
+		}catch (Exception e) {  
+			System.out.println(e); 
+		}finally{
+			if (conn != null) {  
+				try {  
+					conn.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}  
+			if (pst != null) {  
+				try {  
+					pst.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}  
+			if (pst1 != null) {  
+				try {  
+					pst1.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}  
+			if (rs != null) {  
+				try {  
+					rs.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}
+			if (rs1 != null) {  
+				try {  
+					rs1.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}
+		}
+		return status;		
+	}
+}

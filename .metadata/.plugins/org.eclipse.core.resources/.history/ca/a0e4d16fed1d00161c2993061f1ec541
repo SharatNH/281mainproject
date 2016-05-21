@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
+	
+</script>
+</head>
+<meta charset="ISO-8859-1">
+<title>Sensors</title>
+
+       <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="css/creative.css" type="text/css">
+        <link rel="stylesheet" type="text/css" href="css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/animate-custom.css" />
+</head>
+<body style="background-image:url('images/background.png');background-size: cover;">
+<section>
+    <div id="container_demo" >
+        <div id="wrapper">
+            <div id="login" class="animate form">
+                <form  id="addsensor" action="viewsensor" autocomplete="on" method="post">                
+                    <h1>Sensor Management</h1>    
+                    <input  type="submit" value="Add Sensor"  onclick="document.forms['addsensor'].action='sensorcreation.html'" />
+                    <input  type="submit" onclick ="viewsensor()" value="Modify" class="login button" />
+                   
+                    <p class="change_link"></p>
+                </form>
+            </div>                                              
+        </div>
+    </div>
+</section> 
+<script>
+function viewsensor()
+{
+	
+	$.ajax({
+		type : "POST", 
+		url : "viewsensor"
+		
+	}).success(function(response) {
+		//alert("success");
+	}).error(function(err) {
+		alert(err);
+	});
+}
+
+	
+	
+	
+
+
+
+</script>
+</body>
+</html> 

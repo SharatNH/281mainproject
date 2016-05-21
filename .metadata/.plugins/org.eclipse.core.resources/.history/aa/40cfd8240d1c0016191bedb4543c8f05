@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html ng-app="est">
+
+<head>
+
+
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
+	</script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;    
+}
+</style>
+</head>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<body ng-controller="estcontroller">
+
+
+
+	<div ng-init="names=[]">
+		
+		
+		<table  id ="datatable" >
+		   <thead>
+		   <tr>
+		   <th></th>
+		   <th>Average High Temperature</th>
+		   <th>Average Low Temperature</th>
+		   <th>Rain</th>
+    		</tr>
+    		</thead>
+    		
+    		<tbody>
+    		<tr>
+    		
+    		<th>January</th>
+    		<td>10</td>
+    		
+    		</tr>
+    		
+    		<tr>
+    		<th>Feburary</th>
+    		<td>10</td>
+    		
+    		</tr>
+    		
+    		<tr >
+    		<th>March</th>
+    		<td>10</td>
+    	
+    		</tr>
+    		
+    		<tr >
+    		<th>April</th>
+    		<td>10</td>
+    		
+    		</tr>
+    		
+    		<tr>
+    		<th>May</th>
+    		<td>10</td>
+    	
+    		</tr>
+    		
+    		
+    		<tr>
+    		<th>June</th>
+    		<td>10</td>
+    		
+    		</tr>
+    		
+    		
+    		<tr>
+    		<th>July</th>
+    		<td>10</td>
+    		
+    		</tr>
+    		
+    		
+    		<tr>
+    		<th>August</th>
+    		<td>10</td>
+    		
+    		</tr>
+    		
+    		
+    		<tr>
+    		<th>September</th>
+    		<td>10</td>
+    		
+    		</tr>
+    		
+    		
+    		<tr>
+    		<th>October</th>
+    		<td>10</td>
+    	
+    		</tr>
+    		
+    	<tr>
+    		<th>November</th>
+    		<td>10</td>
+    		
+    		</tr>
+    		
+    		
+    		<tr>
+    		<th>December</th>
+    		<td>10</td>
+    		
+    		</tr>
+    		
+    	</tbody>	
+    	</table>
+    		
+   <!-- 
+			
+				<td>{{ x.ahjan }}</td>
+				<td>{{ x.ahfeb }}</td>
+				<td>{{ x.ahmarch }}</td>
+				<td>{{ x.ahapril }}</td>
+				<td>{{ x.ahmay}}</td>
+				<td>{{ x.ahjune }} </td>
+				<td>{{ x.ahjuly }}</td>
+				<td>{{ x.ahaug }}</td>
+				<td>{{ x.ahsept }}</td>
+				<td>{{ x.ahoct }}</td>
+				<td>{{ x.ahnov }}</td>
+				<td>{{ x.ahdec }}</td>
+			
+			</tr>
+		 -->	 
+			
+		
+		
+	</div>
+
+</body>
+
+<script>
+	/*$.ajax({
+		type : "GET",
+		url : "showdb",
+		
+	}).success(function(response) {
+		alert(response);
+	}).error(function(err) {
+		alert(err);
+	}); */
+	var app = angular.module("est", []);
+	app.controller("estcontroller", function($sce, $scope, $http) {
+		//alert("database appears shortly!!");
+		angular.element(document).ready(function() {
+			$.ajax({
+				type : "GET",
+				url : "avght"
+
+			}).success(function(response) {
+				$scope.$apply(function() {
+					$scope.names = JSON.parse(response);
+				});
+
+				//$scope.names=JSON.parse(response);
+				//alert(response);
+			}).error(function(err) {
+				alert(err);
+			});
+		});
+
+	});
+	//function showdb(){
+$(document).ready(function () {
+    $('#container').highcharts({
+        data: {
+            table: 'datatable'
+        },
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Data extracted from a HTML table in the page'
+        },
+        yAxis: {
+            allowDecimals: false,
+            title: {
+                text: 'Units'
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    this.point.y + ' ' + this.point.name.toLowerCase();
+            }
+        }
+    });
+});
+</script>
+
+</html>

@@ -1,0 +1,68 @@
+package run; 
+
+import java.sql.Connection;  
+import java.sql.DriverManager;  
+import java.sql.PreparedStatement;  
+import java.sql.ResultSet;  
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession; 
+public class Logindao {
+
+	public Logindao() {		
+		// TODO Auto-generated constructor stub
+	}
+	public static boolean validate(String name, String pass,HttpServletRequest request) {          
+        boolean status = false;  
+        Connection conn = null;  
+        PreparedStatement pst = null;  
+        ResultSet rs = null;  
+  
+       
+        Connection con = null;
+        HttpSession session = request.getSession(true);
+        String us=session.getAttribute("username").toString();
+
+	try {
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		con= DriverManager.getConnection("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net/ad_df716224c3d569f","b5c5814111c662","45693c14");
+	} catch(Exception e) {
+		e.printStackTrace();
+	}
+    pst = conn  
+            .prepareStatement("select * from login where user=? and password=?");  
+    pst.setString(1, name);  
+    pst.setString(2, pass);  
+
+    rs = pst.executeQuery();  
+    status = rs.next();
+}catch (Exception e) {  
+    System.out.println(e); 
+}finally{
+	 if (conn != null) {  
+         try {  
+             conn.close();  
+         } catch (SQLException e) {  
+             e.printStackTrace();  
+         }  
+     }  
+     if (pst != null) {  
+         try {  
+             pst.close();  
+         } catch (SQLException e) {  
+             e.printStackTrace();  
+         }  
+     }  
+     if (rs != null) {  
+         try {  
+             rs.close();  
+         } catch (SQLException e) {  
+             e.printStackTrace();  
+         }  
+     }  
+ }
+return status;
+
+}
+}

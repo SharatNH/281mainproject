@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Sensor Details</title>
+
+   <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="css/creative.css" type="text/css">
+        <link rel="stylesheet" type="text/css" href="css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/animate-custom.css" />
+</head>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
+	
+</script>
+<body style="background-image:url('images/lightpoint.jpg');background-size: cover; background-repeat: no-repeat;>
+<section>
+    <div id="container_demo" >
+        <div id="wrapper">
+            <div id="login" class="animate form">
+                <form   onsubmit="addsensor(this); return false;" id="01">                
+                    <h1>Sensor Creation</h1>    
+                    <input id="sensorname" name="sensorname" type="text" placeholder="Sensor Name" style="font-size:inherit;" />
+                    <input id="sensorgrp" name="sensorgrp"  type="text" placeholder="Sensor Group" style="font-size:inherit;"/> 
+
+                    <h3>Sensors</h3>  
+                    <p>Select Sensor Location:</p>
+                  <select>
+                    <option value="San Jose">San Jose</option>
+                    <option value="Fremont">Fremont</option>
+                    <option value="Santa Cruz">Santa Cruz</option>
+                    <option value="Nappa">Nappa</option>
+                  </select> 
+                  <div id="check" style="margin-top: 15px;margin-bottom: 10px;">
+                  <input type="checkbox" name="sensor" value="Temperature"> Temperature<br> 
+                  <input type="checkbox" name="sensor" value="Precipiptation"> Precipitation<br> 
+                  <input type="checkbox" name="sesnor" value="Photo Sensor"> Photo Sensor<br> 
+                 
+                  </div>
+                    <p class="login button"> 
+                        <input type="submit"form="01" value="Submited"
+							style="align: center; cursor: pointer;"/> 
+                    </p>
+                    <p class="change_link"></p>
+                </form>
+            </div>                                              
+        </div>
+    </div>
+</section> 
+               
+</body>
+<script>
+
+function addsensor(obj) {
+
+	
+	var sensorname = obj['sensorname'].value;
+	alert(sensorname);
+	var sensorgrp = obj['sensorgrp'].value;
+	alert(sensorgrp);
+
+	
+	var e = document.getElementById("location");
+	var strlocation = e.options[e.selectedIndex].value;
+	alert(strlocation);
+	
+	
+	
+	
+	
+	var checkedValue = null;
+	var count =0;
+	var inputElements = document.getElementsByClassName('messageCheckbox');
+	
+	for (var i = 0; inputElements[i]; ++i) {
+			if (inputElements[i].checked) {
+				if (count == 0)
+					checkedValue = inputElements[i].value;
+				else
+					checkedValue += ',' + inputElements[i].value;
+
+				count++;
+
+			}
+		}
+	
+	alert(checkedValue);
+	alert(count);
+
+		var data = {
+			"sensorname" : sensorname,
+			"sensorgrp" : sensorgrp,
+
+			"city" : strlocation,
+
+			"sensorparameter" : checkedValue,
+
+			"count" : count
+
+		}
+
+		//alert(fname);
+		//alert(mname);
+		$.ajax({
+			type : "POST",
+			url : "sensoradd" ,
+			data : data
+		}).success(function(response) {
+			alert(success);
+		}).error(function(err) {
+			alert(err);
+		});
+
+	}
+</script>
+
+
+</html>

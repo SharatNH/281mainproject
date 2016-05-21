@@ -1,0 +1,86 @@
+package run;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.DriverManager;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+
+/**
+ * Servlet implementation class getsensordata
+ */
+@WebServlet("/getsensordata")
+public class getsensordata extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public getsensordata() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	
+		response.setContentType("text/html");    
+        PrintWriter out = response.getWriter();        
+        
+        String sensorid =request.getParameter("submit");
+        String []typeparameter=request.getParameterValues("sen");
+        String city = request.getParameter("city");
+        String sensorname=request.getParameter("labelName");
+        
+        Connection con=null;
+        try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			 System.out.println("Entered the try");
+			
+			 con= (Connection) DriverManager.getConnection("jdbc:mysql://avghightemp.cjdsel9fsb9g.us-west-1.rds.amazonaws.com:3306/avghightemp","sharat","abcdxyz123");
+			 
+			 
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	
+        try{
+        	String query = " INSERT INTO avghightemp (id,Jan,Feb,March,April,May,June,July,Aug,Sept,Oct,Nov,Dece)"
+					+ " values (?,?, ?, ?, ?, ?,?,?,?,?,?,?,?)";
+			
+			
+			PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
+			preparedStmt.setString (1, sensorname);
+			preparedStmt.setString (2, city);
+			preparedStmt.setString (3, ah_feb);
+			preparedStmt.setString (4, ah_mar);
+			preparedStmt.setString (5, ah_apr);
+			preparedStmt.setString (6, ah_may);
+        	
+        	
+        }
+	
+	
+	}
+	
+
+}

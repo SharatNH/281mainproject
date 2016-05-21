@@ -1,0 +1,50 @@
+package run;
+
+public class Countries {
+
+public Countries(String sgp,int sid, int threshold)
+{
+	this.setSensorgp(sgp);
+	this.setSensorid(sid);
+	this.setThreshold(threshold);
+}
+
+public Countries() {
+}
+public int threshold;
+public int sid;
+public String sgp;
+public String sensing;
+public int len;
+
+
+public void setSensorgp(String sensorgp) {
+this.sgp = sensorgp;
+}
+public String getSensorgp() {
+	return sgp;
+}
+
+public void setSensing(String sense) {
+this.sensing = sense;
+String [] typepara = null;
+typepara = sensing.split(",");
+len = typepara.length;
+System.out.println(len);
+}
+public int getSensing() {
+	return len;
+}
+public void setSensorid(int sensorid) {
+this.sid= sensorid;
+}
+public int getSensorid() {
+return sid;
+}
+public void setThreshold(int t) {
+this.threshold = t;
+}
+public int getThreshold() {
+	return threshold;
+}
+}

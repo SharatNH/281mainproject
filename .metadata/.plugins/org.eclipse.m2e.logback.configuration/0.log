@@ -1,0 +1,22 @@
+2016-05-03 10:04:10,628 [Start Help Server] INFO  org.eclipse.jetty.util.log - Logging initialized @50486ms
+2016-05-03 10:04:11,244 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-9.2.13.v20150730
+2016-05-03 10:04:11,346 [Start Help Server] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@3526fe0b{/help,null,AVAILABLE}
+2016-05-03 10:04:11,480 [Start Help Server] INFO  o.e.jetty.server.ServerConnector - Started ServerConnector@8db350b{HTTP/1.1}{127.0.0.1:50466}
+2016-05-03 10:04:11,480 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started @51344ms
+2016-05-03 10:09:44,414 [Worker-15] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache file is out-of-date. Remote download required.
+2016-05-11 18:04:24,232 [Stop Help Server] INFO  o.e.jetty.server.ServerConnector - Stopped ServerConnector@8db350b{HTTP/1.1}{127.0.0.1:0}
+2016-05-11 18:04:24,275 [Stop Help Server] INFO  o.e.j.server.handler.ContextHandler - Stopped o.e.j.s.ServletContextHandler@3526fe0b{/help,null,UNAVAILABLE}
+2016-05-12 19:21:59,674 [Start Help Server] INFO  org.eclipse.jetty.util.log - Logging initialized @32999ms
+2016-05-12 19:22:00,800 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-9.2.13.v20150730
+2016-05-12 19:22:01,368 [Start Help Server] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@79ceee1f{/help,null,AVAILABLE}
+2016-05-12 19:22:01,764 [Start Help Server] INFO  o.e.jetty.server.ServerConnector - Started ServerConnector@5e2cdfc9{HTTP/1.1}{127.0.0.1:60804}
+2016-05-12 19:22:01,765 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started @35103ms
+2016-05-14 18:21:02,057 [main] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache file is out-of-date. Remote download required.
+2016-05-19 00:29:30,449 [Stop Help Server] INFO  o.e.jetty.server.ServerConnector - Stopped ServerConnector@5e2cdfc9{HTTP/1.1}{127.0.0.1:0}
+2016-05-19 00:29:30,483 [Stop Help Server] INFO  o.e.j.server.handler.ContextHandler - Stopped o.e.j.s.ServletContextHandler@79ceee1f{/help,null,UNAVAILABLE}
+2016-05-19 00:30:00,988 [Start Help Server] INFO  org.eclipse.jetty.util.log - Logging initialized @24812ms
+2016-05-19 00:30:01,488 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-9.2.13.v20150730
+2016-05-19 00:30:02,032 [Start Help Server] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@3d4764f4{/help,null,AVAILABLE}
+2016-05-19 00:30:02,432 [Start Help Server] INFO  o.e.jetty.server.ServerConnector - Started ServerConnector@32f4cf2c{HTTP/1.1}{127.0.0.1:52034}
+2016-05-19 00:30:02,432 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started @26261ms
+2016-05-19 00:31:43,129 [main] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache file is out-of-date. Remote download required.

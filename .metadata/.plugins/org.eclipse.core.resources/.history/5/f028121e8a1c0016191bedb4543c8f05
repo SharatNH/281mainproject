@@ -1,0 +1,176 @@
+package run;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+
+/**
+ * Servlet implementation class modifysensor
+ */
+@WebServlet("/modifysensor")
+public class modifysensor extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public modifysensor() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		//doGet(request, response);
+		
+		
+		
+				  response.setContentType("text/html");    
+			        PrintWriter out = response.getWriter();    
+			        //String strview= request.getParameter("view");
+			        //String stradd = request.getParameter("add");
+			        //String sensorname=request.getParameter("sensorname");    
+			       //String sensorgrp=request.getParameter("sensorgrp");
+			       /*
+			        
+		    		if(!stat){
+		    			out.print("<p style=\"color:red\">Error in getting sensor data</p>");    
+			            RequestDispatcher rd=request.getRequestDispatcher("sensor.html");    
+			            rd.include(request,response); 	
+		    		}
+		        	     
+		       */
+		       		HttpSession session = request.getSession(true);
+			        String user=session.getAttribute("username").toString();
+			        
+			    	boolean stat  = sensordata(response,request,user);
+			        out.close();
+			        
+			}
+			public boolean sensordata(HttpServletResponse response,HttpServletRequest request,String username) throws ServletException, IOException
+			{
+				 boolean status = false;  
+			        Connection conn = null;  
+			        PreparedStatement pst = null;  
+			        ResultSet rs = null;  
+			        String driver = "com.mysql.jdbc.Driver";  
+			        PrintWriter out = response.getWriter();    
+			try{
+				Class.forName(driver).newInstance();  
+			    conn = (Connection) DriverManager  
+			            .getConnection("jdbc:mysql://userlogin.cjdsel9fsb9g.us-west-1.rds.amazonaws.com:3306/userlogin","sharat","abcdxyz123"); 
+
+			    pst = (PreparedStatement) conn.prepareStatement("select * from sensor_infor where userid=?");  
+			    pst.setString(1, username);   
+			    //pst.setString(2, pass);  
+
+			    rs = pst.executeQuery();  
+			  
+			    
+			    out.print("<!DOCTYPE html>");
+			    out.print("<html>");
+			    out.print("<head>");
+			    out.print("<meta charset='ISO-8859-1'>");
+			    out.print("<title>Insert title here</title>");
+			    out.print("</head>");
+			    out.print("<body>");
+			    out.print("<form action='displaysensor' method='post'> ");
+			    out.print(" <fieldset style='width: 100%'>  ");
+			    out.print("<legend> Sensors </legend>"); 
+			    out.print("<table cellpadding='0' cellspacing='0' width='600px'>");
+			   while(rs.next())
+			   {
+				   out.print("<tr>");
+				   out.print("<td style='border-bottom: 1px black solid;'>");
+				   out.print(" <label for='"+rs.getString(1)+" name='lbl'' value =+'"+rs.getString(2)+">"+rs.getString(2)+"</label>");
+				   out.print("<input type='hidden' value="+rs.getString(2)+" name='labelName' />");
+				   out.print("</td>");
+				   out.print("<td style='border-bottom: 1px black solid;'>");
+				   out.print(" <select name='city'>");
+				   out.print("<option  value='San Jose'>San Jose</option>");
+				   out.print("<option  value='Fremont'>Fremont</option>");
+				   out.print("<option  value='Santa Cruz'>Santa Cruz</option>");
+				   out.print("<option  value='Nappa'>Nappa</option>");
+				   out.print(" </select>");
+				   out.print("</td>");
+				   out.print("<td style='border-bottom: 1px black solid;'>");
+				   out.print(" <input type='checkbox' name='sen' value='1'>Temperature<br> ");
+				   out.print(" <input type='checkbox' name='sen' value='2'>Rain<br> ");
+				   out.print(" <input type='checkbox' name='sen' value='3'>Photo Sensor<br> ");
+				   
+				   out.print("</td>");
+				   out.print("<td><input type='submit' name='submit' value="+"'Modify"+rs.getString(1)+"' /></td> ");
+				   out.print("<td><input type='submit' name='submit' value="+"'Delete Sensor"+rs.getString(1)+"' /></td> ");
+				   out.print("</tr>");
+			   }
+			   
+			   
+			   
+			   out.print("</table>");
+			   status = true;
+			}catch (Exception e) {  
+			    System.out.println(e); 
+			}finally{
+				 if (conn != null) {  
+			         try {  
+			             conn.close();  
+			         } catch (SQLException e) {  
+			             e.printStackTrace();  
+			         }  
+			     }  
+			     if (pst != null) {  
+			         try {  
+			             pst.close();  
+			         } catch (SQLException e) {  
+			             e.printStackTrace();  
+			         }  
+			     }  
+			     if (rs != null) {  
+			         try {  
+			             rs.close();  
+			         } catch (SQLException e) {  
+			             e.printStackTrace();  
+			         }  
+			     }  
+			 }
+			return status;
+				
+			}
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+
+
